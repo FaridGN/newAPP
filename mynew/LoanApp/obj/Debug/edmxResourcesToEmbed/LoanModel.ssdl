@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище LoanAppModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Passport" Type="varchar" MaxLength="12" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Loans">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoanDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="Amount" Type="money" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'LoanApp.dbo.Allview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Allview">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Passport" />
+      <PropertyRef Name="Amount" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Passport" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Amount" Type="money" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Loans__CustomerI__25869641">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Loans" Type="Self.Loans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Loans">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище LoanAppModelContainer">
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Loans" EntityType="Self.Loans" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Allview" EntityType="Self.Allview" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Allview].[Id] AS [Id], 
+    [Allview].[Name] AS [Name], 
+    [Allview].[Passport] AS [Passport], 
+    [Allview].[Amount] AS [Amount]
+    FROM [dbo].[Allview] AS [Allview]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Loans__CustomerI__25869641" Association="Self.FK__Loans__CustomerI__25869641">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Loans" EntitySet="Loans" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
